@@ -17,12 +17,27 @@
 			<p>Here is your videos Noob</p><br /><br /><br />
     </header>
 </center>
-    
+<script>
+function update(change){
+d = document.getElementById("links");
+dat = d.value;
+dat = d.innerHTML;
+d.value = change + "\n" + dat ;
+d.innerHTML = change + "\n" + dat;
+}
+</script>
 <div class="container">
-
+<div class="jumbotron">
+<div class="row">
+<div class="col-sm-6 col-sm-offset-3">
+<textarea class="form-control custom-control" id="links" rows="5" style="resize:none"></textarea>
+</div>
+</div>
+</div>
 {% block content %}
     {% for p in videos %}
-  <div class="col-sm-6 col-md-4">
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
     <div class="thumbnail">
       <img src="{% if p.bigthumb %}
                     {{ p.bigthumb }}
@@ -31,19 +46,20 @@
                 {% endif %}" alt="...">
       <div class="caption">
         <h5>{{ p.title }}</h5>
+        <script>update("{{ p.getbest().url }}")</script>
         <p><div class="dropdown">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Download Video
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
         {% for a in p.streams %}
-        <li><a href="{{ a.url }}">{{ a.resolution }} {{ a.extension }}</a></li>
+        <li><a href="{{ a.url }}" download>{{ a.resolution }} {{ a.extension }}</a></li>
         {% endfor %}
     </ul>
 </div></p>
       </div>
     </div>
   </div>
-
+</div>
 {% endfor %}
     {% endblock %}
 </div>
