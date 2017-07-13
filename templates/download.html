@@ -17,18 +17,18 @@
 			</header>
             </center>
 <div class="container">
-<div class="col-sm-6 col-md-4">
+<div class="col-sm-6 col-sm-offset-3">
     <div class="thumbnail">
           <img src="{{ data['thumb'] }}" alt="...">
             <div class="caption">
-            <h6>{{ data['title'] }}</h6>
+            <center><h4>{{ data['title'] }}</h4></center>
             <p><div class="dropdown">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Download Video
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
         {% block content %}
         {% for a in data['arrr'] %}
-        <li><a href="{{ a.url }}">{{ a.resolution }} {{ a.extension }}</a></li>
+        <li><a href="{{ a.url }}" download="{{ data['title'] }}">{{ a.resolution }} {{ a.extension }}</a></li>
         {% endfor %}
         {% endblock %}
     </ul>
@@ -39,3 +39,4 @@
 </div>  
 </body>
 </html>
+
