@@ -15,7 +15,11 @@ def download():
         url = request.form['url']
         if (re.search('watch', url)):
             url = url.split('v=', 1)[1]
-            video = pafy.new(url)
+            try:
+                video = pafy.new(url)
+            except:
+                url = url[0:11]
+                video = pafy.new(url)
             title = video.title
             thumb = ''
             if video.bigthumb:
@@ -33,31 +37,19 @@ def download():
                 pk = playlist['items'][i]['pafy']
                 arr.append(pk)
             return render_template('playlist.html', videos=arr)
+        else:
+            url = url.split('be/', 1)[1]
+            video = pafy.new(url)
+            title = video.title
+            thumb = ''
+            if video.bigthumb:
+                thumb = video.bigthumb
+            else:
+                thumb = video.thumb
+            streams = video.streams
+            data = {'arrr':streams,'title':title,'thumb':thumb}
+            return render_template('download.html', data = {'arrr':streams,'title':title,'thumb':thumb})
     return render_template('index.html')
 
-#return 'FUCK YOU'+str(data)
-    """if request.method == 'POST':
- render_template('download.html', data = {'arrr':streams,'title':title,'thumb':thumb})        
-        if form.is_valid():
-            if (re.search('watch', pk['url'])):
-                url = pk['url'].split('v=', 1)[1]
-                video = pafy.new(url)
-                title = video.title
-                thumb = ''
-                if video.bigthumb:
-                    thumb = video.bigthumb
-                else:
-                    thumb = video.thumb
-                streams = video.streams
-                return render_template('download.html', data = {'arrr':streams,'title':title,'thumb':thumb})
-            elif (re.search('playlist',pk['url'])):
-                playlist = pafy.get_playlist(pk['url'])
-                bilol = len(playlist['items'])
-                arr = []
-                for i in range(0, bilol):
-                    pk = playlist['items'][i]['pafy']
-                    arr.append(pk)
-                return render_template('playlist.html', videos=arr)"""
-    return render_template(request, 'index.html')
 
-app.run()
+#app.run()
